@@ -1,0 +1,152 @@
+---
+title: "Language Translations: An Introduction to R"
+author: "Shukry Zablah (szablah20@amherst.edu)"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+There are many tools that accomplish the same jobs, but each tool has its advantages and disadvantages. 
+This is the first part of the Language Translations tutorial series that aims to introduce the learner to R. 
+R is a powerful and free software environment for statistics and data science that is interpreted on the fly, providing powerful computational power with relatively simple syntax. R is free available for download at https://www.r-project.org/ .
+
+## Overview and Motivation
+
+In this tutorial we will guide the learner through a case study in which we take a friendly dataset from read in to analysis. The learner will be able to familiarize with the R workflow and be able to have a glimpse of its capabilities. In the end, the learner will extract insights from the dataset and visualize them. 
+
+## Dataset
+
+If need be, the learner can find more information on the dataset in our codebook or at https://www.kaggle.com/starbucks/starbucks-menu/home .
+
+## Import libraries
+
+R has thousands of free user created packages that expand on the core functionality of the language. These packages often provide specialized functionality and other aids that ease the task of analyzing data. 
+
+Run the following command if you don't have these packages installed on your computer: 
+
+```{r}
+#install.packages(c("tidyverse", "mosaic", "xtable"))
+```
+
+Afterwards, we will load the packages into the environment in order to get access to their functions. 
+
+```{r message=FALSE}
+library(tidyverse)
+library(mosaic)
+library(xtable)
+```
+
+Now that we are all set, let's start the process of data analysis by ingesting a friendly dataset on Starbucks items and their nutritional information. 
+
+## Read in data
+
+The file is easily read into an R dataframe (a data structure that holds tabular information) with one command. We will call our dataset "Starbucks". 
+
+```{r message=FALSE, warning=FALSE}
+Starbucks <- read_csv("../resources/Starbucks.csv")
+```
+
+## Global characteristics and overview
+
+Now that we have our data in R we can take a look at it. 
+
+```{r}
+glimpse(Starbucks)
+```
+
+We quickly got a glimpse of what we are dealing with here. Our dataset has 242 observations and 19 variables. 
+
+Another thing we can do is get a vector of the variable names.
+
+```{r}
+names(Starbucks)
+```
+
+We will try to extract insights about the proteinG (how many grams of protein) the items have, but first we have to uncover the distributions of some of the variables in the dataset to familiarize ourselves with the dataset and get exposed to some useful functions in R. 
+
+## Univariate Analysis
+
+The main purpose of univariate analysis is to begin to describe the dataset without worrying about relationships or causes. This step is important because it will help guide our questions and the way we will answer them later on. 
+
+Now, let's take a look at some variables: 
+
+```{r}
+mosaic::tally(~ beverageCategory, data = Starbucks)
+```
+
+```{r}
+favstats(~ calories, data = Starbucks)
+```
+
+```{r}
+with(Starbucks, stem(calories))
+```
+
+
+```{r}
+gf_density(~ calories, data = Starbucks)
+```
+
+```{r}
+summary(Starbucks)
+```
+
+## Data wrangling
+
+```{r message=FALSE, warning=FALSE, results='asis'}
+Starbucks <- Starbucks %>% 
+  mutate(beverageCategory = factor(beverageCategory),
+         beverage = factor(beverage),
+         beveragePrep = factor(beveragePrep),
+         totalFatG = parse_number(totalFatG),
+         vitaminAPercentDv = parse_number(vitaminAPercentDv),
+         vitaminCPercentDv = parse_number(vitaminCPercentDv),
+         calciumPercentDv = parse_number(calciumPercentDv),
+         ironPercentDv = parse_number(ironPercentDv),
+         caffeineMg = parse_number(caffeineMg)
+         ) %>% 
+  select(-X1)
+```
+
+```{r}
+summary(Starbucks)
+```
+
+## Bivariate Analysis
+
+```{r}
+gf_point(proteinG ~ calories, data = Starbucks)
+```
+
+```{r}
+gf_point(proteinG ~ sugarsG, data = Starbucks) 
+```
+
+```{r}
+gf_boxplot(proteinG ~ beverageCategory, data = Starbucks) + theme(axis.text.x=element_text(angle=45,hjust=1))
+```
+
+## Linear regression
+
+```{r}
+modProtein <- lm(proteinG ~ calciumPercentDv, data = Starbucks)
+summary(modProtein)
+```
+
+```{r}
+gf_point(proteinG ~ calciumPercentDv, data = Starbucks) %>% gf_smooth(method = "lm")
+```
+
+```{r}
+modProtein2 <- lm(proteinG ~ calciumPercentDv + transFatG, data = Starbucks)
+summary(modProtein2)
+```
+
+```{r}
+gf_point(proteinG ~ sugarsG, color = ~ beverageCategory, data = Starbucks) %>% gf_lm()
+```
+
+
