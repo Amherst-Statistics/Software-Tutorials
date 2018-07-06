@@ -1,0 +1,16 @@
+name: "Amherst Software Tutorials"
+author: "Shukry Zablah (szablah20@amherst.edu)"
+navbar:
+  title: "Amherst Software Tutorials"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Learning R"
+      href: learningR.html
+    - text: "Learning Python"
+      href: learningPython.html
+output:
+  html_document:
+    theme: cosmo
+    highlight: textmate
+    css: styles.css

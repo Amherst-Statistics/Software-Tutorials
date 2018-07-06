@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Shukry Zablah (szablah20@amherst.edu)" />
+
+
+<title>Language Translations: An Introduction to R</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Amherst Software Tutorials</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="learningR.html">Learning R</a>
+</li>
+<li>
+  <a href="learningPython.html">Learning Python</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Language Translations: An Introduction to R</h1>
+<h4 class="author"><em>Shukry Zablah (<a href="mailto:szablah20@amherst.edu">szablah20@amherst.edu</a>)</em></h4>
+<h4 class="date"><em>06 July, 2018</em></h4>
+
+</div>
+
+
+<p>There are many tools that accomplish the same jobs, but each tool has its advantages and disadvantages. This is the first part of the Language Translations tutorial series that aims to introduce the learner to R. R is a powerful and free software environment for statistics and data science that is interpreted on the fly, providing powerful computational power with relatively simple syntax. R is free available for download at <a href="https://www.r-project.org/" class="uri">https://www.r-project.org/</a> .</p>
+<div id="overview-and-motivation" class="section level2">
+<h2>Overview and Motivation</h2>
+<p>In this tutorial we will guide the learner through a case study in which we take a friendly dataset from read in to analysis. The learner will be able to familiarize with the R workflow and be able to have a glimpse of its capabilities. In the end, the learner will extract insights from the dataset and visualize them.</p>
+</div>
+<div id="dataset" class="section level2">
+<h2>Dataset</h2>
+<p>If need be, the learner can find more information on the dataset in our codebook or at <a href="https://www.kaggle.com/starbucks/starbucks-menu/home" class="uri">https://www.kaggle.com/starbucks/starbucks-menu/home</a> .</p>
+</div>
+<div id="import-libraries" class="section level2">
+<h2>Import libraries</h2>
+<p>R has thousands of free user created packages that expand on the core functionality of the language. These packages often provide specialized functionality and other aids that ease the task of analyzing data.</p>
+<p>Run the following command if you don’t have these packages installed on your computer:</p>
+<pre class="r"><code>#install.packages(c(&quot;tidyverse&quot;, &quot;mosaic&quot;, &quot;xtable&quot;))</code></pre>
+<p>Afterwards, we will load the packages into the environment in order to get access to their functions.</p>
+<pre class="r"><code>library(tidyverse)
+library(mosaic)
+library(xtable)</code></pre>
+<p>Now that we are all set, let’s start the process of data analysis by ingesting a friendly dataset on Starbucks items and their nutritional information.</p>
+</div>
+<div id="read-in-data" class="section level2">
+<h2>Read in data</h2>
+<p>The file is easily read into an R dataframe (a data structure that holds tabular information) with one command. We will call our dataset “Starbucks”.</p>
+<pre class="r"><code>Starbucks &lt;- read_csv(&quot;../resources/Starbucks.csv&quot;)</code></pre>
+</div>
+<div id="global-characteristics-and-overview" class="section level2">
+<h2>Global characteristics and overview</h2>
+<p>Now that we have our data in R we can take a look at it.</p>
+<pre class="r"><code>glimpse(Starbucks)</code></pre>
+<pre><code>## Observations: 242
+## Variables: 19
+## $ X1                  &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,...
+## $ beverageCategory    &lt;chr&gt; &quot;Coffee&quot;, &quot;Coffee&quot;, &quot;Coffee&quot;, &quot;Coffee&quot;, &quot;C...
+## $ beverage            &lt;chr&gt; &quot;Brewed Coffee&quot;, &quot;Brewed Coffee&quot;, &quot;Brewed ...
+## $ beveragePrep        &lt;chr&gt; &quot;Short&quot;, &quot;Tall&quot;, &quot;Grande&quot;, &quot;Venti&quot;, &quot;Short...
+## $ calories            &lt;int&gt; 3, 4, 5, 5, 70, 100, 70, 100, 150, 110, 13...
+## $ totalFatG           &lt;chr&gt; &quot;0.1&quot;, &quot;0.1&quot;, &quot;0.1&quot;, &quot;0.1&quot;, &quot;0.1&quot;, &quot;3.5&quot;, ...
+## $ transFatG           &lt;dbl&gt; 0.0, 0.0, 0.0, 0.0, 0.1, 2.0, 0.4, 0.2, 3....
+## $ saturatedFatG       &lt;dbl&gt; 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.0, 0....
+## $ sodiumMg            &lt;int&gt; 0, 0, 0, 0, 5, 15, 0, 5, 25, 0, 5, 30, 0, ...
+## $ totalCarbohydratesG &lt;int&gt; 5, 10, 10, 10, 75, 85, 65, 120, 135, 105, ...
+## $ cholesterolMg       &lt;int&gt; 0, 0, 0, 0, 10, 10, 6, 15, 15, 10, 19, 19,...
+## $ dietaryFibreG       &lt;int&gt; 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, ...
+## $ sugarsG             &lt;int&gt; 0, 0, 0, 0, 9, 9, 4, 14, 14, 6, 18, 17, 8,...
+## $ proteinG            &lt;dbl&gt; 0.3, 0.5, 1.0, 1.0, 6.0, 6.0, 5.0, 10.0, 1...
+## $ vitaminAPercentDv   &lt;chr&gt; &quot;0%&quot;, &quot;0%&quot;, &quot;0%&quot;, &quot;0%&quot;, &quot;10%&quot;, &quot;10%&quot;, &quot;6%&quot;...
+## $ vitaminCPercentDv   &lt;chr&gt; &quot;0%&quot;, &quot;0%&quot;, &quot;0%&quot;, &quot;0%&quot;, &quot;0%&quot;, &quot;0%&quot;, &quot;0%&quot;, ...
+## $ calciumPercentDv    &lt;chr&gt; &quot;0%&quot;, &quot;0%&quot;, &quot;0%&quot;, &quot;2%&quot;, &quot;20%&quot;, &quot;20%&quot;, &quot;20%...
+## $ ironPercentDv       &lt;chr&gt; &quot;0%&quot;, &quot;0%&quot;, &quot;0%&quot;, &quot;0%&quot;, &quot;0%&quot;, &quot;0%&quot;, &quot;8%&quot;, ...
+## $ caffeineMg          &lt;chr&gt; &quot;175&quot;, &quot;260&quot;, &quot;330&quot;, &quot;410&quot;, &quot;75&quot;, &quot;75&quot;, &quot;7...</code></pre>
+<p>We quickly got a glimpse of what we are dealing with here. Our dataset has 242 observations and 19 variables.</p>
+<p>Another thing we can do is get a vector of the variable names.</p>
+<pre class="r"><code>names(Starbucks)</code></pre>
+<pre><code>##  [1] &quot;X1&quot;                  &quot;beverageCategory&quot;    &quot;beverage&quot;           
+##  [4] &quot;beveragePrep&quot;        &quot;calories&quot;            &quot;totalFatG&quot;          
+##  [7] &quot;transFatG&quot;           &quot;saturatedFatG&quot;       &quot;sodiumMg&quot;           
+## [10] &quot;totalCarbohydratesG&quot; &quot;cholesterolMg&quot;       &quot;dietaryFibreG&quot;      
+## [13] &quot;sugarsG&quot;             &quot;proteinG&quot;            &quot;vitaminAPercentDv&quot;  
+## [16] &quot;vitaminCPercentDv&quot;   &quot;calciumPercentDv&quot;    &quot;ironPercentDv&quot;      
+## [19] &quot;caffeineMg&quot;</code></pre>
+<p>We will try to extract insights about the proteinG (how many grams of protein) the items have, but first we have to uncover the distributions of some of the variables in the dataset to familiarize ourselves with the dataset and get exposed to some useful functions in R.</p>
+</div>
+<div id="univariate-analysis" class="section level2">
+<h2>Univariate Analysis</h2>
+<p>The main purpose of univariate analysis is to begin to describe the dataset without worrying about relationships or causes. This step is important because it will help guide our questions and the way we will answer them later on.</p>
+<p>Now, let’s take a look at some variables:</p>
+<pre class="r"><code>mosaic::tally(~ beverageCategory, data = Starbucks)</code></pre>
+<pre><code>## beverageCategory
+##           Classic Espresso Drinks                            Coffee 
+##                                58                                 4 
+##       Frappuccino® Blended Coffee        Frappuccino® Blended Crème 
+##                                36                                13 
+## Frappuccino® Light Blended Coffee             Shaken Iced Beverages 
+##                                12                                18 
+##         Signature Espresso Drinks                         Smoothies 
+##                                40                                 9 
+##                  Tazo® Tea Drinks 
+##                                52</code></pre>
+<pre class="r"><code>favstats(~ calories, data = Starbucks)</code></pre>
+<pre><code>##  min  Q1 median  Q3 max     mean       sd   n missing
+##    0 120    185 260 510 193.8719 102.8633 242       0</code></pre>
+<pre class="r"><code>with(Starbucks, stem(calories))</code></pre>
+<pre><code>## 
+##   The decimal point is 2 digit(s) to the right of the |
+## 
+##   0 | 00000011111123
+##   0 | 556666777888888888999999
+##   1 | 00000000001111111112222222222333333333344444
+##   1 | 55555555555666666667777777778888888888899999999999
+##   2 | 000000000011111112222222333333444444444
+##   2 | 55556666666677778888888999999999
+##   3 | 0011111111222334444
+##   3 | 555556777899
+##   4 | 023
+##   4 | 5566
+##   5 | 1</code></pre>
+<pre class="r"><code>gf_density(~ calories, data = Starbucks)</code></pre>
+<p><img src="learningR_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<pre class="r"><code>summary(Starbucks)</code></pre>
+<pre><code>##        X1         beverageCategory     beverage         beveragePrep      
+##  Min.   :  1.00   Length:242         Length:242         Length:242        
+##  1st Qu.: 61.25   Class :character   Class :character   Class :character  
+##  Median :121.50   Mode  :character   Mode  :character   Mode  :character  
+##  Mean   :121.50                                                           
+##  3rd Qu.:181.75                                                           
+##  Max.   :242.00                                                           
+##     calories      totalFatG           transFatG     saturatedFatG   
+##  Min.   :  0.0   Length:242         Min.   :0.000   Min.   :0.0000  
+##  1st Qu.:120.0   Class :character   1st Qu.:0.100   1st Qu.:0.0000  
+##  Median :185.0   Mode  :character   Median :0.500   Median :0.0000  
+##  Mean   :193.9                      Mean   :1.307   Mean   :0.0376  
+##  3rd Qu.:260.0                      3rd Qu.:2.000   3rd Qu.:0.1000  
+##  Max.   :510.0                      Max.   :9.000   Max.   :0.3000  
+##     sodiumMg      totalCarbohydratesG cholesterolMg   dietaryFibreG   
+##  Min.   : 0.000   Min.   :  0.0       Min.   : 0.00   Min.   :0.0000  
+##  1st Qu.: 0.000   1st Qu.: 70.0       1st Qu.:21.00   1st Qu.:0.0000  
+##  Median : 5.000   Median :125.0       Median :34.00   Median :0.0000  
+##  Mean   : 6.364   Mean   :128.9       Mean   :35.99   Mean   :0.8058  
+##  3rd Qu.:10.000   3rd Qu.:170.0       3rd Qu.:50.75   3rd Qu.:1.0000  
+##  Max.   :40.000   Max.   :340.0       Max.   :90.00   Max.   :8.0000  
+##     sugarsG         proteinG      vitaminAPercentDv  vitaminCPercentDv 
+##  Min.   : 0.00   Min.   : 0.000   Length:242         Length:242        
+##  1st Qu.:18.00   1st Qu.: 3.000   Class :character   Class :character  
+##  Median :32.00   Median : 6.000   Mode  :character   Mode  :character  
+##  Mean   :32.96   Mean   : 6.979                                        
+##  3rd Qu.:43.75   3rd Qu.:10.000                                        
+##  Max.   :84.00   Max.   :20.000                                        
+##  calciumPercentDv   ironPercentDv       caffeineMg       
+##  Length:242         Length:242         Length:242        
+##  Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character  
+##                                                          
+##                                                          
+## </code></pre>
+</div>
+<div id="data-wrangling" class="section level2">
+<h2>Data wrangling</h2>
+<pre class="r"><code>Starbucks &lt;- Starbucks %&gt;% 
+  mutate(beverageCategory = factor(beverageCategory),
+         beverage = factor(beverage),
+         beveragePrep = factor(beveragePrep),
+         totalFatG = parse_number(totalFatG),
+         vitaminAPercentDv = parse_number(vitaminAPercentDv),
+         vitaminCPercentDv = parse_number(vitaminCPercentDv),
+         calciumPercentDv = parse_number(calciumPercentDv),
+         ironPercentDv = parse_number(ironPercentDv),
+         caffeineMg = parse_number(caffeineMg)
+         ) %&gt;% 
+  select(-X1)</code></pre>
+<pre class="r"><code>summary(Starbucks)</code></pre>
+<pre><code>##                     beverageCategory
+##  Classic Espresso Drinks    :58     
+##  Tazo® Tea Drinks           :52     
+##  Signature Espresso Drinks  :40     
+##  Frappuccino® Blended Coffee:36     
+##  Shaken Iced Beverages      :18     
+##  Frappuccino® Blended Crème :13     
+##  (Other)                    :25     
+##                                   beverage               beveragePrep
+##  Caffè Latte                          : 12   Soymilk           :66   
+##  Caffè Mocha (Without Whipped Cream)  : 12   2% Milk           :50   
+##  Cappuccino                           : 12   Grande Nonfat Milk:26   
+##  Caramel Macchiato                    : 12   Tall Nonfat Milk  :23   
+##  Coffee                               : 12   Venti Nonfat Milk :22   
+##  Hot Chocolate (Without Whipped Cream): 12   Whole Milk        :16   
+##  (Other)                              :170   (Other)           :39   
+##     calories       totalFatG        transFatG     saturatedFatG   
+##  Min.   :  0.0   Min.   : 0.000   Min.   :0.000   Min.   :0.0000  
+##  1st Qu.:120.0   1st Qu.: 0.200   1st Qu.:0.100   1st Qu.:0.0000  
+##  Median :185.0   Median : 2.500   Median :0.500   Median :0.0000  
+##  Mean   :193.9   Mean   : 2.904   Mean   :1.307   Mean   :0.0376  
+##  3rd Qu.:260.0   3rd Qu.: 4.500   3rd Qu.:2.000   3rd Qu.:0.1000  
+##  Max.   :510.0   Max.   :15.000   Max.   :9.000   Max.   :0.3000  
+##                                                                   
+##     sodiumMg      totalCarbohydratesG cholesterolMg   dietaryFibreG   
+##  Min.   : 0.000   Min.   :  0.0       Min.   : 0.00   Min.   :0.0000  
+##  1st Qu.: 0.000   1st Qu.: 70.0       1st Qu.:21.00   1st Qu.:0.0000  
+##  Median : 5.000   Median :125.0       Median :34.00   Median :0.0000  
+##  Mean   : 6.364   Mean   :128.9       Mean   :35.99   Mean   :0.8058  
+##  3rd Qu.:10.000   3rd Qu.:170.0       3rd Qu.:50.75   3rd Qu.:1.0000  
+##  Max.   :40.000   Max.   :340.0       Max.   :90.00   Max.   :8.0000  
+##                                                                       
+##     sugarsG         proteinG      vitaminAPercentDv vitaminCPercentDv
+##  Min.   : 0.00   Min.   : 0.000   Min.   : 0.000    Min.   :  0.000  
+##  1st Qu.:18.00   1st Qu.: 3.000   1st Qu.: 4.000    1st Qu.:  0.000  
+##  Median :32.00   Median : 6.000   Median : 8.000    Median :  0.000  
+##  Mean   :32.96   Mean   : 6.979   Mean   : 9.831    Mean   :  3.649  
+##  3rd Qu.:43.75   3rd Qu.:10.000   3rd Qu.:15.000    3rd Qu.:  0.000  
+##  Max.   :84.00   Max.   :20.000   Max.   :50.000    Max.   :100.000  
+##                                                                      
+##  calciumPercentDv ironPercentDv      caffeineMg    
+##  Min.   : 0.00    Min.   : 0.000   Min.   :  0.00  
+##  1st Qu.:10.00    1st Qu.: 0.000   1st Qu.: 50.00  
+##  Median :20.00    Median : 2.000   Median : 75.00  
+##  Mean   :20.76    Mean   : 7.446   Mean   : 89.52  
+##  3rd Qu.:30.00    3rd Qu.:10.000   3rd Qu.:142.50  
+##  Max.   :60.00    Max.   :50.000   Max.   :410.00  
+##                                    NA&#39;s   :23</code></pre>
+</div>
+<div id="bivariate-analysis" class="section level2">
+<h2>Bivariate Analysis</h2>
+<pre class="r"><code>gf_point(proteinG ~ calories, data = Starbucks)</code></pre>
+<p><img src="learningR_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<pre class="r"><code>gf_point(proteinG ~ sugarsG, data = Starbucks) </code></pre>
+<p><img src="learningR_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<pre class="r"><code>gf_boxplot(proteinG ~ beverageCategory, data = Starbucks) + theme(axis.text.x=element_text(angle=45,hjust=1))</code></pre>
+<p><img src="learningR_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+</div>
+<div id="linear-regression" class="section level2">
+<h2>Linear regression</h2>
+<pre class="r"><code>modProtein &lt;- lm(proteinG ~ calciumPercentDv, data = Starbucks)
+summary(modProtein)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = proteinG ~ calciumPercentDv, data = Starbucks)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -4.0209 -1.0382 -0.5795  0.2256 13.2343 
+## 
+## Coefficients:
+##                  Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)       1.13816    0.29720    3.83 0.000164 ***
+## calciumPercentDv  0.28138    0.01173   23.98  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.649 on 240 degrees of freedom
+## Multiple R-squared:  0.7055, Adjusted R-squared:  0.7043 
+## F-statistic: 574.9 on 1 and 240 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre class="r"><code>gf_point(proteinG ~ calciumPercentDv, data = Starbucks) %&gt;% gf_smooth(method = &quot;lm&quot;)</code></pre>
+<p><img src="learningR_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<pre class="r"><code>modProtein2 &lt;- lm(proteinG ~ calciumPercentDv + transFatG, data = Starbucks)
+summary(modProtein2)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = proteinG ~ calciumPercentDv + transFatG, data = Starbucks)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.1980 -1.0846 -0.6342  0.2296 13.1562 
+## 
+## Coefficients:
+##                  Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)       1.08458    0.29357   3.694 0.000273 ***
+## calciumPercentDv  0.26301    0.01327  19.827  &lt; 2e-16 ***
+## transFatG         0.33267    0.11761   2.829 0.005071 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.611 on 239 degrees of freedom
+## Multiple R-squared:  0.715,  Adjusted R-squared:  0.7127 
+## F-statistic: 299.9 on 2 and 239 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre class="r"><code>gf_point(proteinG ~ sugarsG, color = ~ beverageCategory, data = Starbucks) %&gt;% gf_lm()</code></pre>
+<p><img src="learningR_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

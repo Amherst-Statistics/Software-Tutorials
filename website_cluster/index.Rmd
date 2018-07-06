@@ -1,0 +1,13 @@
+---
+title: 'Cluster Computing Tutorials: Supersize Your Data Science Toolkit'
+author: "Shukry Zablah"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Here you will find tools and information on cluster computing technologies for Data Science. 
+

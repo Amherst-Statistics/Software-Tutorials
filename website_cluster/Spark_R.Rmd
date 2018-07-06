@@ -1,0 +1,13 @@
+---
+title: "Supersize Your Analysis: Cluster Computing with R and Spark"
+author: "Shukry Zablah"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+## Learning Goals

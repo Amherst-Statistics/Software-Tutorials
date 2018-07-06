@@ -1,0 +1,16 @@
+name: "Amherst Cluster Computing Tutorials"
+author: "Shukry Zablah (szablah20@amherst.edu)"
+navbar:
+  title: "Amherst Cluster Computing Tutorials"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "R in Condor"
+      href: Condor_R.html
+    - text: "R in Spark"
+      href: Spark_R.html
+output:
+  html_document:
+    theme: cosmo
+    highlight: textmate
+    css: styles.css

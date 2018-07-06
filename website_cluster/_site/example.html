@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Nicholas Horton (nhorton@amherst.edu) and Shukry Zablah" />
+
+<meta name="date" content="2018-06-21" />
+
+<title>Example simulation</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Amherst Cluster Computing Tutorials</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="Condor_R.html">R in Condor</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Example simulation</h1>
+<h4 class="author"><em>Nicholas Horton (<a href="mailto:nhorton@amherst.edu">nhorton@amherst.edu</a>) and Shukry Zablah</em></h4>
+<h4 class="date"><em>June 21, 2018</em></h4>
+
+</div>
+
+
+<p>Conduct a simulation study (with numsim at least 500) with n=25 and n=100 observations. Generate data from a true model where Y = 0.5 - 1 * X where the residuals are normal with mean zero but the standard deviation depends on the X’s. Let the distribution of the X’s be uniform [0, 2] and the standard deviation of the residuals be equal to <span class="math inline">\(0.1+X^2\)</span>. Repeat the process for a scenario where your residuals are normally distributed with equal variance = 1 for all X’s. Compare the coverage results and shape of the distribution of the slope parameter.</p>
+<div id="solution" class="section level4">
+<h4>Solution</h4>
+<p>First we generate the data, fit the model, and extract the slope for the unequal variance problem</p>
+<pre class="r"><code>numsim &lt;- 2000
+gen_sim &lt;- function(n) {
+  x &lt;- runif(n, min = 0, max = 2)
+  errors &lt;- rnorm(n, 0, sd = 1 + x^2) # variance is not equal
+  y &lt;- 0.5 - x + errors
+  return(data.frame(y, x))
+}
+fit_slope &lt;- function(n) {
+  df &lt;- gen_sim(n)
+  mod &lt;- lm(y ~ x, df)
+  slope &lt;- coef(mod)[&#39;x&#39;]
+  conf &lt;- stats::confint(mod)
+  covered &lt;- (-1 &gt; conf[&#39;x&#39;, 1]) &amp;&amp; (-1 &lt; conf[&#39;x&#39;, 2])
+  return(data.frame(slope, covered))
+}</code></pre>
+<p>Next we do the same assuming equal variances.</p>
+<pre class="r"><code>gen_sim_equal &lt;- function(n) {
+  x &lt;- runif(n, min = 0, max = 2)
+  errors &lt;- rnorm(n, 0, sd = 1) # variance is equal
+  y &lt;- 0.5 - x + errors
+  return(data.frame(y,x))
+}
+fit_slope_equal &lt;- function(n) {
+  df &lt;- gen_sim_equal(n)
+  mod &lt;- lm(y ~ x, df)
+  slope &lt;- coef(mod)[&#39;x&#39;]
+  conf &lt;- confint(mod)
+  covered &lt;- (-1 &gt; conf[&#39;x&#39;, 1]) &amp;&amp; (-1 &lt; conf[&#39;x&#39;, 2])
+  return(data.frame(slope, covered))
+}</code></pre>
+</div>
+<div id="plots" class="section level2">
+<h2>Plots</h2>
+<p><img src="example_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+<div id="coverage-rate-and-confidence-interval" class="section level2">
+<h2>Coverage Rate and Confidence Interval</h2>
+<pre class="r"><code>sims &lt;- list(slopes_equal_25, slopes_25, slopes_equal_100, slopes_100)
+df &lt;- data.frame(&#39;coverage&#39; = numeric(), &#39;lower&#39; = numeric(), 
+                 &#39;upper&#39; = numeric())
+for (sim in sims){
+  b &lt;- binom.test(x = sum(sim$covered), n = length(sim$covered))
+  rate &lt;- sum(sim$covered)/length(sim$covered)
+  lower &lt;- b$conf.int[1]
+  upper &lt;- b$conf.int[2]
+  df &lt;- rbind(df, data.frame(&#39;coverage&#39; = rate, &#39;lower&#39; = lower, 
+                             &#39;upper &#39; = upper))
+}</code></pre>
+<pre class="r"><code>row.names(df) &lt;- c(&#39;Equal Var, n = 25&#39;, &#39;Unequal Var, n = 25&#39;,
+                  &#39;Equal Var, n = 100&#39;, &#39;Unequal Var, n = 100&#39;)
+xtable(df)</code></pre>
+
+</div>
+<div id="conclusion" class="section level2">
+<h2>Conclusion</h2>
+<p>The key idea to this problem was to determine why/if we should care about the equal variance assumption for linear regression. We have been warned about heterscedasticity, as noted in Rice p. 554. Rice says that if the error variance is not constant, standard errors and confidence intervals may be misleading. We tested whether that is true or not for sample sizes n=25 and n=100.</p>
+<p>When looking at the distribution for the slope parameters for all four cases (n=25 or n=100, and equal variance or not equal variance), they look relatively similar and normal, centered around -1. However, we do see that for both n=25 and n=100, the distributions for the unequal variance (blue and purple lines on the graph) are wider than when the variance is equal.</p>
+<p>The coverage rates are quite different for the different cases. As shown in the chart above, when n=25, the coverage rate for unequal variance is much lower than the equal variance (0.91 compared to 0.94). Also, the confidence interval for the unequal variance case is larger than the equal variance case (a range of 0.03 compared to a range of 0.02). This indicates that when there is unequal variance, not only is there less coverage, but also less consistency in coverage rates as well. The same conclusions were drawn when n=100, as you can see from the chart.</p>
+<p>We determined that the equal variance assumption is important, and especially when you have small sample sizes of 25 and 100. In summary, the confidence interval for unequal variances is wider than equal variances when n=25 and when n=100, so the method undercovers (<em>anti-conservative</em>: bad!).</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
